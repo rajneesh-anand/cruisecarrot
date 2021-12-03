@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <style type="text/css">
+      table {
+        width: 98%;
+        font-family: "Roboto", sans-serif;
+        margin-top: 8px;
+        margin-left: 10px;
+      }
+
+      th,
+      td {
+        padding: 0.25rem;
+      }
+
+      tbody tr:nth-child(odd) {
+        background: #eee;
+      }
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .company_details {
+        padding-left: 30px;
+        padding-top: 30px;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-size: 14px;
+      }
+
+      .agent_details {
+        padding-left: 30px;
+        padding-top: 20px;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-size: 14px;
+        text-align: right;
+        margin-right: 30px;
+      }
+
+      .tophead {
+        padding: 3px 0px;
+      }
+
+      .row {
+        padding-top: 8px;
+        padding-left: 30px;
+        padding-right: 60px;
+      }
+      .zebra {
+        font-family: "Roboto", sans-serif;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="company_details">
+        <div><img src="http://localhost:3000/logo.png" alt="logo" /></div>
+        <div>CRUISE CARROT SHIPPING PVT.LTD</div>
+        <div>357, 3rd Floor , Vardhman City Center 2</div>
+        <div>Shakti Nagar Under Bridge – Delhi 110007</div>
+        <div>Call Us @ +918189457845 / 98978789787</div>
+        <div>GSTIN : 07AAGCC8458F1ZG</div>
+      </div>
+      {{#each this}} {{#ifEqual @index 0}} {{#each this}}
+      <div class="agent_details">
+        <div
+          style="
+            text-align: center;
+            border-radius: 10px;
+            background: #bada55;
+            padding: 5px 5px;
+          "
+          class="tophead"
+        >
+          LEDGER : {{first_name}}
+        </div>
+        <div class="tophead">{{address_line_one}}</div>
+        <div class="tophead">{{city}}</div>
+        <div class="tophead">{{State_Name}} {{pincode}}</div>
+        <div class="tophead">GSTIN : {{gstin}}</div>
+      </div>
+      {{/each}} {{/ifEqual}} {{/each}}
+    </div>
+    <hr />
+    <table class="zebra">
+      <thead>
+        <th style="text-align: center">ENTRY DATE</th>
+        <th style="text-align: center">ENTRY TYPE</th>
+        <th style="text-align: center">DESCRIPTION</th>
+        <th style="text-align: center">CREDIT</th>
+        <th style="text-align: center">DEBIT</th>
+        <th style="text-align: center">BALANCE</th>
+      </thead>
+
+      <tbody>
+        {{#each this}} {{#ifEqual @index 1}} {{#each this}}
+        <tr>
+          <td>{{formatDate EntryDate}}</td>
+          <td>{{EntryType}} {{Invoice_Number}}</td>
+          <td>{{Comments}}</td>
+          <td style="text-align: right">{{formatNumber Credit}}</td>
+          <td style="text-align: right">{{formatNumber Debit}}</td>
+          <td style="text-align: right">{{runningBalance this}}</td>
+        </tr>
+        {{/each}} {{/ifEqual}} {{/each}}
+        <tr></tr>
+        <tr></tr>
+        {{#each this}} {{#ifEqual @index 1}}
+        <tr>
+          <td></td>
+          <td></td>
+          <td style="font-weight: 600; font-size: 15.5px">TOTAL</td>
+          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+            {{sumCredit this}}
+          </td>
+          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+            {{sumDebit this}}
+          </td>
+          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+            {{balance this}}
+          </td>
+        </tr>
+        {{/ifEqual}} {{/each}}
+      </tbody>
+    </table>
+  </body>
+</html>

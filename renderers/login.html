@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign In</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css" />
+    <link rel="stylesheet" href="../assets/css/materialize.min.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #f8f8f8;
+        font-family: "Muli", sans-serif;
+      }
+      /* .input-field input[type="date"]:focus + label,
+      .input-field input[type="text"]:focus + label,
+      .input-field input[type="email"]:focus + label,
+      .input-field input[type="password"]:focus + label {
+        color: #3f50b5;
+      }
+      .input-field input[type="date"]:focus,
+      .input-field input[type="text"]:focus,
+      .input-field input[type="email"]:focus,
+      .input-field input[type="password"]:focus {
+        border-bottom: 2px solid #9a9ba7;
+        box-shadow: none;
+      } */
+      .input-field label {
+        left: 0;
+      }
+      form {
+        margin: 30px auto;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
+      }
+      .btn-large {
+        height: 45px;
+        line-height: 45px;
+      }
+      .m-b-none {
+        margin-bottom: 0;
+      }
+      .padder-x {
+        padding: 0 !important;
+      }
+      .m-md {
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+      .forgotpassword {
+        font-weight: bold;
+      }
+      h4 {
+        margin-top: 50px;
+        font-weight: 400;
+        letter-spacing: 2px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h4 class="center-align grey-text darken-4">CRUISE CARROT</h4>
+        <div id="alert" style="display: none; color: red; text-align: center; "></div>
+        <form id="login-form">         
+            <div class="input-field ">             
+              <input
+                id="email"
+                type="email"
+                class="validate"
+                name="email"
+                required
+              />
+              <label for="email">Enter Your Email</label>
+            </div>           
+            <div class="input-field">
+              <input
+                class="validate"
+                type="password"
+                name="password"
+                id="password"
+                required
+              />
+              <label for="password">Enter your password</label>
+            </div>
+       
+            <button
+              id="btnLogin"
+              type="submit" 
+              name="action"
+              class="col s12 btn waves-effect waves-light btn btn-large m-md indigo"
+            >
+              Login
+            </button>           
+        </form>
+      </div>
+      <div class="row" style="text-align: center;">
+          <a class="grey-text darken-4 forgotpassword" id="resetpwd" style="cursor:pointer">
+                Forgot Password?
+           </a>     
+        </div>
+        <div class="row">   
+
+            <form id="reset-form" style="display: none">         
+              <div class="input-field ">             
+                <input
+                  id="nemail"
+                  type="email"
+                  class="validate"
+                  name="nemail"
+                  required
+                />
+                <label for="email">Enter Registered Email</label>
+              </div>           
+              <div class="input-field">
+                <input
+                  class="validate"
+                  type="password"
+                  name="npassword"
+                  id="npassword"
+                  required
+                />
+                <label for="password">Enter New Password</label>
+              </div>
+         
+              <button
+                id="btnResetNewPwd"
+                type="submit" 
+                name="action"
+                class="col s12 btn waves-effect waves-light btn btn-large m-md indigo"
+              >
+                RESET PASSWORD
+              </button>           
+          </form>
+  
+
+          </div>
+
+         
+      </div>
+    
+
+    <script>
+      if (typeof module === "object") {
+        window.module = module;
+        module = undefined;
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="../assets/js/jquery-3.4.1.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../assets/js/materialize.min.js"
+    ></script>
+    <script src="./login.js"></script>
+    <script>
+      if (window.module) module = window.module;
+    </script>
+  </body>
+</html>
