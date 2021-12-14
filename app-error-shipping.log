@@ -1,0 +1,11 @@
+Uncaught error: ReferenceError: result is not defined
+    at Query.<anonymous> (E:\Electron\cruisecarrot\api\controllers\customers.js:170:21)
+    at Query.<anonymous> (E:\Electron\cruisecarrot\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (E:\Electron\cruisecarrot\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query._handleFinalResultPacket (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\sequences\Query.js:149:8)
+    at Query.EofPacket (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\sequences\Query.js:133:8)
+    at Protocol._parsePacket (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (E:\Electron\cruisecarrot\node_modules\mysql\lib\protocol\Protocol.js:38:16)

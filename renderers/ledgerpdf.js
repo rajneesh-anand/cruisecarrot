@@ -33,12 +33,12 @@ function printAgentLedgerPdf(id) {
       // console.log(agentData[0].first_name);
 
       let templateHtml = fs.readFileSync(
-        path.join(app.getAppPath(), "../build/ledgertemplate.html"),
+        path.join(app.getAppPath(), "../build/agent-ledger-template.html"),
         "utf8"
       );
 
       // let templateHtml = fs.readFileSync(
-      //   path.join(__dirname, "../build/ledgertemplate.html"),
+      //   path.join(__dirname, "../build/agent-ledger-template.html"),
       //   "utf8"
       // );
 
@@ -103,12 +103,12 @@ function printGeneralLedgerPdf(id) {
       let accName = accNameEntry.options[accNameEntry.selectedIndex].text;
 
       let templateHtml = fs.readFileSync(
-        path.join(app.getAppPath(), "../build/generalledgertemplate.html"),
+        path.join(app.getAppPath(), "../build/general-ledger-template.html"),
         "utf8"
       );
 
       // let templateHtml = fs.readFileSync(
-      //   path.join(__dirname, "../build/generalledgertemplate.html"),
+      //   path.join(__dirname, "../build/general-ledger-template.html"),
       //   "utf8"
       // );
 

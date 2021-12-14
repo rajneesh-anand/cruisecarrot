@@ -73,7 +73,7 @@ exports.generateLedgerPdf = (req, res) => {
         UNION ALL 
         SELECT EntryDate as EntryDate,EntryType,Comments,Invoice_Number,  NULL as Debit,Credit_Amount as Credit FROM receive where Credit_Account =?
         ORDER BY EntryDate`,
-    [id.slice(-1), id, id],
+    [id.slice(3), id, id],
     (error, results) => {
       if (error) {
         return res.status(403).json({
@@ -100,7 +100,7 @@ exports.generateLedgerPdfDateWise = (req, res) => {
   console.log(sql);
   pool.query(
     sql,
-    [id.slice(-1), id, args.from, args.to, id, args.from, args.to],
+    [id.slice(3), id, args.from, args.to, id, args.from, args.to],
     (error, results) => {
       if (error) {
         return res.status(403).json({
@@ -127,7 +127,7 @@ exports.generateTdsPdfDateWise = (req, res) => {
 
   pool.query(
     sql,
-    [id.slice(-1), id, args.from, args.to, id, args.from, args.to],
+    [id.slice(3), id, args.from, args.to, id, args.from, args.to],
     (error, results) => {
       if (error) {
         return res.status(403).json({

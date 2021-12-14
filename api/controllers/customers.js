@@ -151,6 +151,7 @@ module.exports = {
 
   getCustomerBalanceById: (req, res) => {
     const id = req.params.id;
+    console.log(id);
 
     pool.query(
       // ` SELECT (credit - debit) as Balance FROM ( (SELECT SUM(Credit_Amount) as credit, Credit_Account FROM receive where Credit_Account = ? GROUP BY Credit_Account) as credit
@@ -165,6 +166,8 @@ module.exports = {
         if (error) {
           return res.status(500).json({ message: error });
         }
+
+        console.log(results);
 
         return res.status(200).json({
           message: "balance retrieved",

@@ -10,9 +10,11 @@
     <style type="text/css">
       table {
         width: 98%;
-        font-family: "Roboto", sans-serif;
         margin-top: 8px;
         margin-left: 10px;
+        font-size: 9px;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
       }
 
       th,
@@ -27,7 +29,7 @@
       .container {
         display: flex;
         justify-content: space-between;
-        font-family: "Roboto", sans-serif;
+     
       }
 
       .company_details {
@@ -35,7 +37,7 @@
         padding-top: 30px;
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
           sans-serif;
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .agent_details {
@@ -43,7 +45,7 @@
         padding-top: 20px;
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
           sans-serif;
-        font-size: 14px;
+        font-size: 10.5px;
         text-align: right;
         margin-right: 30px;
       }
@@ -57,10 +59,7 @@
         padding-left: 30px;
         padding-right: 60px;
       }
-      .zebra {
-        font-family: "Roboto", sans-serif;
-        font-size: 12px;
-      }
+     
     </style>
   </head>
 
@@ -95,25 +94,25 @@
       {{/each}} {{/ifEqual}} {{/each}}
     </div>
     <hr />
-    <table class="zebra">
+    <table>
       <thead>
-        <th style="text-align: center">ENTRY DATE</th>
-        <th style="text-align: center">ENTRY TYPE</th>
-        <th style="text-align: center">DESCRIPTION</th>
-        <th style="text-align: center">CREDIT</th>
-        <th style="text-align: center">DEBIT</th>
-        <th style="text-align: center">BALANCE</th>
+        <th style="text-align: left; ">ENTRY DATE</th>
+        <th style="text-align: left; ">ENTRY TYPE</th>
+        <th style="text-align: left; ">DESCRIPTION</th>
+        <th style="text-align: right;">CREDIT</th>
+        <th style="text-align: right;">DEBIT</th>
+        <th style="text-align: right; ">BALANCE</th>
       </thead>
 
       <tbody>
         {{#each this}} {{#ifEqual @index 1}} {{#each this}}
         <tr>
-          <td>{{formatDate EntryDate}}</td>
+          <td >{{formatDate EntryDate}}</td>
           <td>{{EntryType}} {{Invoice_Number}}</td>
-          <td>{{Comments}}</td>
-          <td style="text-align: right">{{formatNumber Credit}}</td>
-          <td style="text-align: right">{{formatNumber Debit}}</td>
-          <td style="text-align: right">{{runningBalance this}}</td>
+          <td >{{Comments}}</td>
+          <td style="text-align: right;">{{formatNumber Credit}}</td>
+          <td style="text-align: right;">{{formatNumber Debit}}</td>
+          <td style="text-align: right; ">{{runningBalance this}}</td>
         </tr>
         {{/each}} {{/ifEqual}} {{/each}}
         <tr></tr>
@@ -122,14 +121,14 @@
         <tr>
           <td></td>
           <td></td>
-          <td style="font-weight: 600; font-size: 15.5px">TOTAL</td>
-          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+          <td style="font-weight: 600; text-align: right">TOTAL</td>
+          <td style="font-weight: 600; text-align: right">
             {{sumCredit this}}
           </td>
-          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+          <td style="font-weight: 600; text-align: right">
             {{sumDebit this}}
           </td>
-          <td style="font-weight: 600; font-size: 15.5px; text-align: right">
+          <td style="font-weight: 600; text-align: right">
             {{balance this}}
           </td>
         </tr>

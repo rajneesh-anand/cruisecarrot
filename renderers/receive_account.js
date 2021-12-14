@@ -78,7 +78,9 @@ form.addEventListener("submit", function (event) {
     let paymentData = {
       date: formattedDate(data.get("payment_date")),
       entryType:
-        Entry === "BANK-RECEIVE" ? "Bank Transaction" : "Cash Transaction",
+        Entry === "BANK-RECEIVE"
+          ? "Payment Received ( Bank Transaction )"
+          : "Payment Received ( Cash Transaction )",
       creditAccount: data.get("agent"),
       creditAmount: data.get("amount"),
       debitAccount: data.get("fromAccount"),
@@ -114,7 +116,6 @@ form.addEventListener("submit", function (event) {
 function getAccountBalance() {
   let accountId = document.getElementById("agent").value;
   let balanceField = document.getElementById("showBalance");
-  // console.log(accountId);
 
   axios
     .get(`http://localhost:3000/api/customerbalance/${accountId}`)
@@ -125,7 +126,6 @@ function getAccountBalance() {
       let DebitAmount = Debit[0].debit;
 
       let Balance = (CreditAmount - DebitAmount).toFixed(2);
-      console.log(Balance);
 
       if (Balance > 0) {
         balanceField.innerText = `Balance :  ${String.fromCharCode(

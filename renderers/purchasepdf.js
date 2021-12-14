@@ -55,15 +55,15 @@ function printPurchasePdf(invoice_id) {
         pincode: invResults.pincode,
       };
 
-      // let templateHtml = fs.readFileSync(
-      //   path.join(app.getAppPath(), "../build/purchasetemplate.html"),
-      //   "utf8"
-      // );
-
       let templateHtml = fs.readFileSync(
-        path.join(__dirname, "../build/purchasetemplate.html"),
+        path.join(app.getAppPath(), "../build/purchasetemplate.html"),
         "utf8"
       );
+
+      // let templateHtml = fs.readFileSync(
+      //   path.join(__dirname, "../build/purchasetemplate.html"),
+      //   "utf8"
+      // );
 
       let template = handlebars.compile(templateHtml);
       let html = template(data);
@@ -82,10 +82,10 @@ function printPurchasePdf(invoice_id) {
 
         const browser = await puppeteer.launch({
           headless: true,
-          // executablePath: path.join(
-          //   app.getAppPath(),
-          //   "../app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-818858/chrome-win/chrome.exe"
-          // ),
+          executablePath: path.join(
+            app.getAppPath(),
+            "../app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-818858/chrome-win/chrome.exe"
+          ),
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
 

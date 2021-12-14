@@ -416,7 +416,7 @@ module.exports = {
 						) AS t where t.EntryDate between ? and ? order by t.EntryDate
 						
 						`,
-      [id.slice(-1), id, id, id, id, args.from, args.to],
+      [id.slice(3), id, id, id, id, args.from, args.to],
       (error, results, fields) => {
         if (error) {
           res.status(403).json({
