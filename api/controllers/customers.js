@@ -4,6 +4,8 @@ const {
   fetchCustomers,
   fetchCustomerById,
   setCustomer,
+  createComapanyRecord,
+  setCompany,
 } = require("../services/customers");
 const pool = require("../config/database");
 
@@ -49,7 +51,7 @@ module.exports = {
   },
   getCustomerslist: (req, res) => {
     pool.query(
-      `SELECT concat(Prefix,id) as id, first_name,mobile FROM customers`,
+      `SELECT id, first_name,mobile FROM customers`,
       [],
       (error, results) => {
         if (error) {
@@ -68,7 +70,6 @@ module.exports = {
   },
 
   getCustomers: (req, res) => {
-    // Get the query string paramters sent by Datatable
     const requestQuery = req.query;
 
     let columnsMap = [
@@ -96,7 +97,7 @@ module.exports = {
 
     // Custome SQL query
     const query =
-      "SELECT concat(c.Prefix,c.id) as id,c.first_name,c.last_name,c.address_line_one,c.address_line_two,c.city,c.pincode,c.mobile,c.email,c.phone,c.gstin,c.pan,s.State_Name as state FROM customers c, states s where c.state =s.id";
+      "SELECT c.id,c.first_name,c.city,s.State_Name as state,c.gstin FROM customers c, states s where c.state =s.id ";
     // NodeTable requires table's primary key to work properly
     const primaryKey = "id";
 
@@ -112,20 +113,9 @@ module.exports = {
         console.log(err);
         return;
       }
-      // Directly send this data as output to Datatable
+
       res.send(data);
     });
-
-    // fetchCustomers((err, results) => {
-    //   if (err) {
-    //     console.log(err);
-    //     return;
-    //   }
-    //   return res.json({
-    //     message: "success",
-    //     data: results,
-    //   });
-    // });
   },
 
   getCustomerById: (req, res) => {
@@ -179,7 +169,7 @@ module.exports = {
 
   updateCustomer: (req, res) => {
     const body = req.body;
-    console.log(body);
+
     setCustomer(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -257,6 +247,125 @@ module.exports = {
       return res.json({
         success: 1,
         message: "user deleted successfully",
+      });
+    });
+  },
+
+  getCompanyList: (req, res) => {
+    const requestQuery = req.query;
+
+    let columnsMap = [
+      {
+        db: "id",
+        dt: 0,
+      },
+      {
+        db: "name",
+        dt: 1,
+      },
+      {
+        db: "address_one",
+        dt: 2,
+      },
+      {
+        db: "mobile",
+        dt: 3,
+      },
+      {
+        db: "gst",
+        dt: 4,
+      },
+    ];
+
+    // Custome SQL query
+    const query = "SELECT id, name,address_one,mobile,gst FROM company_details";
+    // NodeTable requires table's primary key to work properly
+    const primaryKey = "id";
+
+    const nodeTable = new NodeTable(
+      requestQuery,
+      query,
+      primaryKey,
+      columnsMap
+    );
+
+    nodeTable.output((err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      res.send(data);
+    });
+  },
+
+  getCompanyById: (req, res) => {
+    const id = req.params.id;
+    pool.query(
+      `select * from company_details where id = ?`,
+      [id],
+      (error, results, fields) => {
+        if (error) {
+          callBack(error);
+        }
+        return res.json({
+          data: results,
+        });
+      }
+    );
+  },
+
+  createCompany: (req, res) => {
+    const body = req.body;
+    const reg = {
+      name: body.name,
+      gst: body.gst,
+    };
+
+    pool.query(
+      "SELECT COUNT(*) AS cnt FROM company_details WHERE name = ? and gst= ?",
+      [reg.name, reg.gst],
+      (err, data) => {
+        if (err) {
+          return res.status(403).json({
+            error: err,
+          });
+        }
+        if (data[0].cnt > 0) {
+          return res.status(403).json({
+            message: "Company Details already exists !",
+          });
+        }
+
+        createComapanyRecord(body, (err, results) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).json({
+              success: 0,
+              message: "Database connection error !",
+            });
+          }
+          return res.status(200).json({
+            message: "Company Details saved successfully !",
+            data: results,
+          });
+        });
+      }
+    );
+  },
+
+  updateCompany: (req, res) => {
+    const body = req.body;
+
+    setCompany(body, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(403).json({
+          message: "Database connection error !",
+        });
+      }
+      return res.status(200).json({
+        message: "Company Info updated successfully !",
       });
     });
   },

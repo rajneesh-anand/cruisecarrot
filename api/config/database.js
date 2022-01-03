@@ -13,11 +13,11 @@ const { createPool } = require("mysql");
 // });
 
 const pool = createPool({
-  host: "us-cdbr-east-04.cleardb.com",
+  host: "database-1.c39uep2h3fya.ap-south-1.rds.amazonaws.com",
   port: 3306,
-  user: "b040638ba8e065",
-  password: "f0495245",
-  database: "heroku_37e31c820059a56",
+  user: "admin",
+  password: "Rajneesh2Neo",
+  database: "cruisecarrot",
   connectionLimit: 10,
   multipleStatements: true,
   connectTimeout: 60 * 60 * 1000,

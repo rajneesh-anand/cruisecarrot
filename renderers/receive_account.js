@@ -57,6 +57,7 @@ const isvalid = () => {
   if (
     amount === "" ||
     amount === 0 ||
+    fromname === "Select Bank Account" ||
     fromname === "Select Account" ||
     agentname === "Select Agent"
   ) {
@@ -200,7 +201,7 @@ function formattedDate(dateValue) {
 
 ipcRenderer.on("fetchCustomers", (event, data) => {
   customers = [...data];
-  // console.log(customers);
+
   var Options = "";
   data.map(function (element, i) {
     Options =
@@ -211,16 +212,16 @@ ipcRenderer.on("fetchCustomers", (event, data) => {
   $(".agentName").formSelect();
 });
 
-// ipcRenderer.on("fetchAccounts", (event, data) => {
-//   accounts = [...data];
+ipcRenderer.on("fetchAccounts", (event, data) => {
+  accounts = [...data];
 
-//   var Options = "";
-//   data.map(function (element, i) {
-//     Options =
-//       Options +
-//       `<option value='${element.id}'>${element.Account_Name}</option>`;
-//   });
+  var Options = "";
+  data.map(function (element, i) {
+    Options =
+      Options +
+      `<option value='${element.id}'>${element.Account_Name}</option>`;
+  });
 
-//   $(".fromAccount").append(Options);
-//   $(".fromAccount").formSelect();
-// });
+  $(".fromAccount").append(Options);
+  $(".fromAccount").formSelect();
+});

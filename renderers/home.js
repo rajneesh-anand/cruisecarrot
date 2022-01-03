@@ -327,28 +327,28 @@ msgButton.addEventListener("click", (event) => {
   ipcRenderer.send("create:messengerWindow", "messenger");
 });
 
-const ledgerButton = document.getElementById("ledger");
-ledgerButton.addEventListener("click", (event) => {
-  $("table").remove();
+// const ledgerButton = document.getElementById("ledger");
+// ledgerButton.addEventListener("click", (event) => {
+//   $("table").remove();
 
-  getLedgerListAPICall((response) => {
-    if (response === "success") {
-      generateLedgerDataTable();
-      $("#datePanel").show();
-    }
-  });
-});
+//   getLedgerListAPICall((response) => {
+//     if (response === "success") {
+//       generateLedgerDataTable();
+//       $("#datePanel").show();
+//     }
+//   });
+// });
 
-const generalledgerButton = document.getElementById("generalledger");
-generalledgerButton.addEventListener("click", (event) => {
-  $("table").remove();
+// const generalledgerButton = document.getElementById("generalledger");
+// generalledgerButton.addEventListener("click", (event) => {
+//   $("table").remove();
 
-  getGeneralLedgerListAPICall((response) => {
-    if (response === "success") {
-      generateGeneralLedgerDataTable();
-    }
-  });
-});
+//   getGeneralLedgerListAPICall((response) => {
+//     if (response === "success") {
+//       generateGeneralLedgerDataTable();
+//     }
+//   });
+// });
 
 const listPaymentButton = document.getElementById("listPayments");
 listPaymentButton.addEventListener("click", (event) => {
@@ -371,6 +371,17 @@ listReceiveButton.addEventListener("click", (event) => {
   });
 });
 
+// const newCompany = document.getElementById("newCompany");
+// newCompany.addEventListener("click", (event) => {
+//   ipcRenderer.send("create:companywindow", "company");
+// });
+
+const companyList = document.getElementById("companyList");
+companyList.addEventListener("click", (event) => {
+  $("table").remove();
+  generateCompanyDataTable();
+});
+
 const purList = document.getElementById("purList");
 purList.addEventListener("click", (event) => {
   $("table").remove();
@@ -382,12 +393,6 @@ cusListButton.addEventListener("click", (event) => {
   $("table").remove();
 
   generateCustomerDataTable();
-
-  // getCustomerListAPICall((response) => {
-  // 	if (response === "success") {
-  // 		generateCustomerDataTable();
-  // 	}
-  // });
 });
 
 const supListButton = document.getElementById("supList");
@@ -401,12 +406,6 @@ invListButton.addEventListener("click", (event) => {
   $("table").remove();
 
   generateInvoiceDataTable();
-
-  // getInvoiceListAPICall((response) => {
-  //   if (response === "success") {
-  //     generateInvoiceDataTable();
-  //   }
-  // });
 });
 
 // Invoice DataTable
@@ -1249,3 +1248,88 @@ function generateReceiveDataTable() {
 ipcRenderer.on("backup:done", (event, args) => {
   alert(args);
 });
+
+// Company DataTable
+
+function generateCompanyDataTable() {
+  let companyId;
+
+  let htmlTemplate = `<table id="compTable" class=" display table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+	<thead>
+		<tr>	
+    <th>ID</th>	
+			<th>COMPANY NAME</th>
+			<th>ADDRESS</th>
+			<th>CONTACT</th>
+			<th>GSTIN</th>	   
+		</tr>
+	</thead> 
+	</table>
+`;
+  document.getElementById("createTable").innerHTML = htmlTemplate;
+
+  $("#compTable").dataTable({
+    paging: true,
+    sort: true,
+    searching: true,
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    ajax: "http://localhost:3000/api/companylist",
+    language: {
+      searchPlaceholder: "Search Records",
+      sSearch: "",
+      paginate: {
+        next: "&#8594;", // or '→'
+        previous: "&#8592;", // or '←'
+      },
+    },
+    info: false,
+    pageLength: 100,
+    dom: "Bfrtip",
+    select: true,
+
+    buttons: [
+      {
+        text: "Add New Company Info",
+        action: function (e, dt, node, config) {
+          ipcRenderer.send("create:companywindow", "company");
+        },
+        enabled: true,
+      },
+      {
+        text: "Edit Selected Company Info",
+        action: function (e, dt, node, config) {
+          ipcRenderer.send("company:edit", {
+            companyId: companyId,
+          });
+        },
+
+        enabled: false,
+      },
+    ],
+  });
+
+  $("#compTable tbody").on("click", "tr", function () {
+    if ($(this).hasClass("selected")) {
+      $(this).removeClass("selected");
+    } else {
+      $("#compTable").dataTable().$("tr.selected").removeClass("selected");
+      $(this).addClass("selected");
+    }
+  });
+
+  $("#compTable tbody").on("click", "tr", function () {
+    rowIndex = $("#compTable").DataTable().row(this).index();
+    companyId = $("#compTable").DataTable().cell(".selected", 0).data();
+    var selectedRows = $("tr.selected").length;
+    $("#compTable")
+      .DataTable()
+      .button(0)
+      .enable(selectedRows === 1);
+    $("#compTable")
+      .DataTable()
+      .button(1)
+      .enable(selectedRows === 1);
+  });
+}

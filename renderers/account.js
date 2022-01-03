@@ -60,7 +60,6 @@ form.addEventListener("submit", function (event) {
     var data = new FormData(form);
     accountData = {
       date: formattedDate(data.get("payment_date")),
-      prefix: "ACC",
       account_name: data.get("account").toUpperCase(),
       account_type: data.get("entryType").toUpperCase(),
       remarks: data.get("comment") ? data.get("comment").toUpperCase() : "",

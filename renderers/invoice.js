@@ -424,7 +424,7 @@ form.addEventListener("submit", function (event) {
       GST: gstSwitchStatus,
       PAX: total_passenger,
       EntryDate: formattedDate(data.get("invoice_date")),
-      Credit_Account: "ACC1",
+      Credit_Account: 1,
       Credit_Amount:
         data.get("invoiceType") === "TOKEN"
           ? token_amount_inr

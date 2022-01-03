@@ -24,10 +24,9 @@ module.exports = {
           });
         } else {
           pool.query(
-            `insert into suppliers(Prefix,first_name, last_name,address_line_one, address_line_two,city,state,pincode,mobile,phone,gstin,email,pan) 
-                          values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+            `insert into suppliers(first_name, last_name,address_line_one, address_line_two,city,state,pincode,mobile,phone,gstin,email,pan) 
+                          values(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
-              body.prefix,
               body.first_name,
               body.last_name,
               body.address_line_one,
@@ -85,7 +84,7 @@ module.exports = {
 
     // Custome SQL query
     const query =
-      "SELECT concat(s.Prefix,s.id) as id,s.first_name,s.last_name,s.address_line_one,s.address_line_two,s.city,s.pincode,s.mobile,s.email,s.phone,s.gstin,s.pan,st.State_Name as state FROM suppliers s, states st where s.state =st.id";
+      "SELECT s.id,s.first_name,s.last_name,s.address_line_one,s.address_line_two,s.city,s.pincode,s.mobile,s.email,s.phone,s.gstin,s.pan,st.State_Name as state FROM suppliers s, states st where s.state =st.id";
     // NodeTable requires table's primary key to work properly
     const primaryKey = "id";
 
@@ -154,7 +153,7 @@ module.exports = {
   },
   fetchSuppliers: (req, res) => {
     pool.query(
-      `SELECT concat(Prefix,id) as id, first_name,mobile FROM suppliers`,
+      `SELECT id, first_name,mobile FROM suppliers`,
       [],
       (error, results) => {
         if (error) {

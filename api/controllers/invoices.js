@@ -18,7 +18,7 @@ module.exports = {
   },
   createInvoice: (req, res) => {
     const body = req.body;
-    console.log(body);
+
     const reg = {
       Invoice_Number: body.Invoice_Number,
     };
@@ -51,7 +51,7 @@ module.exports = {
             data: results,
           });
         });
-      },
+      }
     );
   },
 
@@ -105,29 +105,9 @@ module.exports = {
             });
           });
         }
-      },
+      }
     );
   },
-
-  //   getInvoices: (req, res) => {
-  //     pool.query(
-  //       `SELECT i.Invoice_Id,i.Invoice_Number,i.Invoice_Date,i.Total_Payable_Amt,c.first_name as Agent_Name FROM customers c, invoices i where i.Agent_Name =concat(c.Prefix,c.id)`,
-  //       [],
-  //       (error, results, fields) => {
-  //         if (error) {
-  //           return res.status(403).json({
-  //             error: error,
-  //             message: "Error : Invoice List",
-  //           });
-  //         } else {
-  //           return res.status(200).json({
-  //             message: "success",
-  //             data: results,
-  //           });
-  //         }
-  //       },
-  //     );
-  //   },
 
   getInvoices: (req, res, next) => {
     // Get the query string paramters sent by Datatable
@@ -135,7 +115,7 @@ module.exports = {
 
     let columnsMap = [
       {
-        db: "Invoice_Id",
+        db: "id",
         dt: 0,
       },
       {
@@ -158,15 +138,15 @@ module.exports = {
 
     // Custome SQL query
     const query =
-      "SELECT i.Invoice_Id,i.Invoice_Number,i.Invoice_Date,i.Total_Payable_Amt,c.first_name as Agent_Name FROM customers c, invoices i where i.Agent_Name =concat(c.Prefix,c.id)";
+      "SELECT i.id,i.Invoice_Number,i.Invoice_Date,i.Total_Payable_Amt,c.first_name as Agent_Name FROM customers c, invoices i where i.Agent_Name =c.id";
     // NodeTable requires table's primary key to work properly
-    const primaryKey = "Invoice_Id";
+    const primaryKey = "id";
 
     const nodeTable = new NodeTable(
       requestQuery,
       query,
       primaryKey,
-      columnsMap,
+      columnsMap
     );
 
     nodeTable.output((err, data) => {
@@ -209,7 +189,7 @@ module.exports = {
             data: results,
           });
         }
-      },
+      }
     );
   },
 

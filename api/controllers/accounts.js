@@ -40,30 +40,26 @@ module.exports = {
   },
 
   fetchAccounts: (req, res) => {
-    pool.query(
-      "SELECT concat(Prefix,id) as id ,Account_Name from accounts",
-      [],
-      (err, results) => {
-        if (err) {
-          return res.status(403).json({
-            error: err,
-          });
-        } else {
-          return res.status(200).json({
-            message: "All Accounts",
-            data: results,
-          });
-        }
+    pool.query("SELECT id ,Account_Name from accounts", [], (err, results) => {
+      if (err) {
+        return res.status(403).json({
+          error: err,
+        });
+      } else {
+        return res.status(200).json({
+          message: "All Accounts",
+          data: results,
+        });
       }
-    );
+    });
   },
 
   fetchAccountsById: (req, res) => {
     // const type = req.params.id === "BANK-RECEIVE" ? "BANK ACCOUNT" : "OTHERS";
     const sql =
       req.params.id === "BANK-RECEIVE"
-        ? `SELECT concat(Prefix,id) as id ,Account_Name from accounts where Account_Type ="BANK ACCOUNT"`
-        : `SELECT concat(Prefix,id) as id ,Account_Name from accounts where Account_Type <>"BANK ACCOUNT"`;
+        ? `SELECT  id ,Account_Name from accounts where Account_Type ="BANK ACCOUNT"`
+        : `SELECT id ,Account_Name from accounts where Account_Type <>"BANK ACCOUNT"`;
     console.log(sql);
     pool.query(sql, [], (err, results) => {
       if (err) {
@@ -190,9 +186,9 @@ module.exports = {
     pool.query(
       `SELECT payments.id,payments.EntryDate,payments.Debit_Account,payments.Debit_Amount,payments.EntryType,payments.ChequeNumber,customers.first_name,accounts.Account_Name FROM payments 
 			LEFT JOIN customers
-			ON concat(customers.Prefix,customers.id) = payments.Debit_Account
+			ON customers.id = payments.Debit_Account
 			LEFT JOIN accounts
-			ON concat(accounts.Prefix,accounts.id) = payments.Debit_Account
+			ON accounts.id = payments.Debit_Account
 			where payments.EntryType <>'Invoice' and payments.EntryType <>'Token Invoice'
 			ORDER BY payments.EntryDate`,
       [],
@@ -216,9 +212,9 @@ module.exports = {
     pool.query(
       `SELECT receive.id,receive.EntryDate,receive.Credit_Account,receive.Credit_Amount,receive.EntryType,receive.ChequeNumber,customers.first_name,accounts.Account_Name FROM receive 
 			LEFT JOIN customers
-			ON concat(customers.Prefix,customers.id) = receive.Credit_Account
+			ON customers.id = receive.Credit_Account
 			LEFT JOIN accounts
-			ON concat(accounts.Prefix,accounts.id) = receive.Credit_Account
+			ON accounts.id = receive.Credit_Account
 			where receive.EntryType <>'Invoice'
 			ORDER BY receive.EntryDate`,
       [],
@@ -263,7 +259,7 @@ module.exports = {
       `select t.Acc,SUM(IFNULL( t.Credit, 0 )) AS Credit,SUM(IFNULL( t.Debit, 0 )) AS Debit, c.first_name,c.city from (
 				select Credit_Account AS Acc,  Credit_Amount AS Credit, NULL as Debit from receive
 				union
-				select Debit_Account AS Acc , NULL as Credit, Debit_Amount AS Debit from payments ) as t, customers c where t.Acc = concat(c.Prefix,c.id) Group by t.Acc`,
+				select Debit_Account AS Acc , NULL as Credit, Debit_Amount AS Debit from payments ) as t, customers c where t.Acc = c.id Group by t.Acc`,
       [],
       (error, results) => {
         if (error) {
@@ -284,7 +280,7 @@ module.exports = {
   getgeneralledgerlist: (req, res) => {
     pool.query(
       `SELECT t.Acc, SUM(IFNULL(t.Credit, 0 )) AS Credit, SUM(IFNULL( t.Debit, 0 )) AS Debit, accounts.Account_Name from (
-				SELECT concat(accounts.Prefix,accounts.id) as Acc, accounts.Credit_Amount AS Credit, accounts.Debit_Amount AS Debit FROM shipping.accounts  
+				SELECT accounts.id as Acc, accounts.Credit_Amount AS Credit, accounts.Debit_Amount AS Debit FROM shipping.accounts  
 				union
 				SELECT receive.Credit_Account as Acc, receive.Credit_Amount AS Credit, NULL as Debit FROM shipping.receive  
 				union
@@ -293,7 +289,7 @@ module.exports = {
 				SELECT receive.Debit_Account as Acc, NULL as Credit, receive.Debit_Amount AS Debit FROM shipping.receive  
 				union
 				SELECT payments.Debit_Account as Acc, NULL as Credit, payments.Debit_Amount AS Debit FROM shipping.payments  
-				) AS t, accounts where t.Acc = concat(accounts.Prefix,accounts.id) AND  t.Acc NOT LIKE 'CUS%' Group by t.Acc
+				) AS t, accounts where t.Acc = accounts.id AND  t.Acc NOT LIKE 'CUS%' Group by t.Acc
 				`,
       [],
       (error, results) => {
@@ -313,7 +309,7 @@ module.exports = {
   },
   getAccounts: (req, res) => {
     pool.query(
-      `SELECT concat(Prefix,id) as accID, Account_Name FROM accounts`,
+      `SELECT id, Account_Name FROM accounts`,
       [],
       (error, results) => {
         if (error) {

@@ -132,9 +132,10 @@ function thFormat(num) {
 }
 
 function GetTotal(obj) {
-  x = document.getElementById("invoiceType").options[
-    document.getElementById("invoiceType").selectedIndex
-  ].text;
+  x =
+    document.getElementById("invoiceType").options[
+      document.getElementById("invoiceType").selectedIndex
+    ].text;
 
   val1 =
     document.getElementById("adults").value === ""
@@ -275,43 +276,34 @@ function GetTotal(obj) {
             parseFloat(total_gst) -
             parseFloat(token_amount)
           ).toFixed(2);
-    document.getElementById("total").innerHTML = parseFloat(
-      gross_amount
-    ).toFixed(2);
+    document.getElementById("total").innerHTML =
+      parseFloat(gross_amount).toFixed(2);
   } else {
     gross_amount =
       x === "TOKEN"
         ? parseFloat(net_amount).toFixed(2)
         : (parseFloat(net_amount) - parseFloat(token_amount)).toFixed(2);
-    document.getElementById("total").innerHTML = parseFloat(
-      gross_amount
-    ).toFixed(2);
+    document.getElementById("total").innerHTML =
+      parseFloat(gross_amount).toFixed(2);
   }
 
   document.getElementById("base_amt").innerHTML = parseFloat(total).toFixed(2);
-  document.getElementById("comm_amt").innerHTML = parseFloat(
-    comm_amount
-  ).toFixed(2);
+  document.getElementById("comm_amt").innerHTML =
+    parseFloat(comm_amount).toFixed(2);
 
-  document.getElementById("ncf_amt").innerHTML = parseFloat(ncf_amount).toFixed(
-    2
-  );
-  document.getElementById("tax_amt").innerHTML = parseFloat(tax_amount).toFixed(
-    2
-  );
+  document.getElementById("ncf_amt").innerHTML =
+    parseFloat(ncf_amount).toFixed(2);
+  document.getElementById("tax_amt").innerHTML =
+    parseFloat(tax_amount).toFixed(2);
 
-  document.getElementById("hs_amt").innerHTML = parseFloat(hs_amount).toFixed(
-    2
-  );
-  document.getElementById("gt_amt").innerHTML = parseFloat(
-    gratuity_amount
-  ).toFixed(2);
-  document.getElementById("tds_amt").innerHTML = parseFloat(tds_amount).toFixed(
-    2
-  );
-  document.getElementById("gst_amt").innerHTML = parseFloat(total_gst).toFixed(
-    2
-  );
+  document.getElementById("hs_amt").innerHTML =
+    parseFloat(hs_amount).toFixed(2);
+  document.getElementById("gt_amt").innerHTML =
+    parseFloat(gratuity_amount).toFixed(2);
+  document.getElementById("tds_amt").innerHTML =
+    parseFloat(tds_amount).toFixed(2);
+  document.getElementById("gst_amt").innerHTML =
+    parseFloat(total_gst).toFixed(2);
 
   if (val18 === 0 || val18 == "") {
     gross_amount_inr = parseFloat(gross_amount).toFixed(2);
@@ -482,7 +474,7 @@ updateBtn.addEventListener("click", function (event) {
       GST: gstSwitchStatus,
       PAX: total_passenger,
       EntryDate: formattedDate(data.get("invoice_date")),
-      Credit_Account: "ACC1",
+      Credit_Account: 1,
       Credit_Amount:
         data.get("invoiceType") === "TOKEN"
           ? token_amount_inr

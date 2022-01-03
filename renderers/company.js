@@ -1,6 +1,5 @@
 const electron = require("electron");
-const remote = electron.remote;
-const { ipcRenderer } = electron;
+const { remote, ipcRenderer } = electron;
 const axios = require("axios");
 
 function ValidateNumbers(e) {
@@ -15,7 +14,7 @@ function ValidateNumbers(e) {
 }
 
 function isNumberKey(evt, obj) {
-  var charCode = evt.which ? evt.which : event.keyCode;
+  var charCode = evt.which ? evt.which : evt.keyCode;
   var value = obj.value;
   var dotcontains = value.indexOf(".") != -1;
   if (dotcontains) if (charCode == 46) return false;
@@ -37,6 +36,18 @@ $(function () {
     format: "dd mmm yyyy",
     setDefaultDate: true,
   });
+
+  ipcRenderer.on("fetchStates", (event, data) => {
+    var Options = "";
+    data.map(function (element, i) {
+      Options =
+        Options +
+        `<option value='${element.State_Name}'>${element.State_Name}</option>`;
+    });
+
+    $(".stateName").append(Options);
+    $(".stateName").formSelect();
+  });
 });
 
 document.addEventListener("keydown", (event) => {
@@ -49,20 +60,18 @@ document.addEventListener("keydown", (event) => {
 });
 
 const isvalid = () => {
-  let firstName = document.getElementById("fname").value;
-  // let lastName = document.getElementById("last_name").value;
-  let gstin = document.getElementById("gstin").value;
+  let name = document.getElementById("name").value;
+  let address = document.getElementById("address_one").value;
+  let gst = document.getElementById("gst").value;
   let city = document.getElementById("city").value;
-  // let pincode = document.getElementById("pincode").value;
 
-  if (firstName === "" || gstin === "" || city === "") {
+  if (name === "" || address === "" || gst === "" || city === "") {
     return false;
   } else {
     return true;
   }
 };
 
-// const btnSave = document.getElementById("btnSave");
 let form = document.querySelector("form");
 
 form.addEventListener("submit", (event) => {
@@ -70,25 +79,25 @@ form.addEventListener("submit", (event) => {
 
   if (isvalid()) {
     let data = new FormData(form);
-    let supplierData = {
-      first_name: data.get("fname").toUpperCase(),
-      last_name: data.get("lname").toUpperCase(),
-      address_line_one: data.get("address1").toUpperCase(),
-      address_line_two: data.get("address2").toUpperCase(),
+    let companyData = {
+      name: data.get("name").toUpperCase(),
+      address_one: data.get("address_one"),
+      address_two: data.get("address_two"),
       city: data.get("city").toUpperCase(),
-      pincode: data.get("pincode"),
+      pin: data.get("pincode"),
       state: data.get("state"),
       phone: data.get("phone"),
       mobile: data.get("mobile"),
-      gstin: data.get("gstin").toUpperCase(),
+      gst: data.get("gst").toUpperCase(),
       email: data.get("email"),
-      pan: data.get("pan"),
+      pan: data.get("pan").toUpperCase(),
+      website: data.get("website"),
     };
 
     axios
       .post(
-        `http://localhost:3000/api/supplier`,
-        supplierData,
+        `http://localhost:3000/api/company`,
+        companyData,
 
         {
           headers: {
@@ -105,15 +114,4 @@ form.addEventListener("submit", (event) => {
         alert(error.response.data.message);
       });
   }
-});
-
-ipcRenderer.on("fetchStates", (event, data) => {
-  var Options = "";
-  data.map(function (element, i) {
-    Options =
-      Options + `<option value='${element.id}'>${element.State_Name}</option>`;
-  });
-
-  $(".stateName").append(Options);
-  $(".stateName").formSelect();
 });

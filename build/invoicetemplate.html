@@ -8,56 +8,56 @@
     />
 
     <style type="text/css">
+      body {
+        font-family: "Roboto", sans-serif;
+        padding-top: 32px;
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+      h3,
+      h4,
+      h5 {
+        padding: 2.5px 0px;
+        margin: 0;
+        font-weight: 500;
+      }
       .container {
         display: flex;
         justify-content: space-between;
       }
 
       .company_details {
-        padding-left: 30px;
-        padding-top: 20px;
-        font-family: "Roboto", sans-serif;
-        font-size: 12.5px;
+        margin-bottom: 20px;
       }
 
-      .pass_details {
-        padding-left: 30px;
-        padding-right: 60px;
-        padding-top: 10px;
-        font-family: "Roboto", sans-serif;
-        font-size: 13.5px;
+      .pass_details h4 {
+        padding: 2.5px 0px;
+        margin: 0;
       }
 
-      .agent_details {
-        padding-left: 30px;
-        font-family: "Roboto", sans-serif;
-        font-size: 13.5px;
+      .agent_details h4 {
+        padding: 2.5px 0px;
+        margin: 0;
       }
 
-      .invoice_details {
-        padding-right: 30px;
-        padding-top: 30px;
-        font-family: "Roboto", sans-serif;
-        font-size: 13.5px;
+      .amount {
+        text-align: center;
+        border-radius: 10px;
+        background: #bada55;
+        padding: 5px 0px;
       }
 
       .tophead {
         padding: 3px 0px;
       }
 
-      .row {
-        padding-top: 8px;
-        padding-left: 30px;
-        padding-right: 60px;
-        font-family: "Roboto", sans-serif;
-      }
-
       .footer {
-        padding-top: 8px;
-        padding-left: 30px;
-        padding-right: 30px;
-        font-family: "Roboto", sans-serif;
-        font-size: 13.5px;
+        padding-top: 48px;
+      }
+      .footer h3 h4 h6 {
+        padding: 2.5px 0px;
+        margin: 0;
+        font-weight: 500;
       }
     </style>
   </head>
@@ -65,12 +65,22 @@
   <body>
     <div class="container">
       <div class="company_details">
-        <div><img src="http://localhost:3000/logo.png" alt="logo" /></div>
-        <div>CARROT CRUISE SHIPPING PVT.LTD</div>
-        <div>357, 3rd Floor , Vardhman City Center 2</div>
-        <div>Shakti Nagar Under Bridge – Delhi 110007</div>
-        <div>Call Us @ +918189457845 / 98978789787</div>
-        <div>GSTIN : 07AAGCC8458F1ZG</div>
+        <img src="http://localhost:3000/logo.png" alt="logo" />
+        <h3>{{name}}</h3>
+        <h4>{{addressOne}}</h4>
+        {{#if addressTwo}}
+        <h4>{{addressTwo}}</h4>
+        {{/if}}
+        <h5>{{ccity}} - {{cstate}} {{{cpin}}}</h5>
+        {{#if cmobile}}
+        <h4>Call Us : {{cmobile}} {{cphone}}</h4>
+        {{/if}} {{#if gst}}
+        <h4>GST : {{gst}}</h4>
+        {{/if}} {{#if email}}
+        <h4>Email : {{email}}</h4>
+        {{/if}} {{#if website}}
+        <h4>Website : {{website}}</h4>
+        {{/if}}
       </div>
       <div class="invoice_details">
         <div class="tophead">
@@ -81,182 +91,146 @@
         <div class="tophead" style="text-align: center">
           TOTAL AMOUNT PAYABLE
         </div>
-        <div
-          style="
-            text-align: center;
-            border-radius: 10px;
-            background: #bada55;
-            padding: 5px 5px;
-            font-size: 16px;
-          "
-        >
+        <div class="amount">
           {{#ifEqual Invoice_Type "Token Invoice"}} &#x20B9; {{Token_Amt_INR}}
           {{else}} &#x20B9; {{TotalINR}} {{/ifEqual}}
         </div>
       </div>
     </div>
-    <hr />
+
     <div class="container">
       <div class="agent_details">
-        <div><stron>INVOICE TO </stron></div>
-        <div>{{first_name}}</div>
-        <div>{{address_line_one}}</div>
-        <div>{{city}}</div>
-        <div>{{state}} {{pincode}}</div>
-        <div>GSTIN : {{gstin}}</div>
+        <h4>INVOICE TO</h4>
+        <h4>{{first_name}}</h4>
+        <h4>{{address_line_one}}</h4>
+        <h4>{{city}} - {{state}} {{pincode}}</h4>
+        <h4>GSTIN : {{gstin}}</h4>
       </div>
       <div class="pass_details">
-        <div>Passenger Name : {{Pass_Name}}</div>
-        <div>Cruise : {{Cruise}}</div>
-        <div>Ship Name : {{Cruise_Ship}}</div>
-        <div>Cabin / Suite : {{Cabin}} {{Cat_Bkg}}</div>
-        <div>Departure Date - {{formatDate Departure_Date}}</div>
-        <div>P A X : {{PAX}}</div>
+        <h4>Passenger Name : {{Pass_Name}}</h4>
+        <h4>Cruise : {{Cruise}}</h4>
+        <h4>Ship Name : {{Cruise_Ship}}</h4>
+        <h4>Cabin / Suite : {{Cabin}} / {{Cat_Bkg}}</h4>
+        <h4>Departure Date : {{formatDate Departure_Date}}</h4>
+        <h4>P A X : {{PAX}}</h4>
       </div>
     </div>
     <hr />
 
-    <div class="container row">
-      <div>Cruise Base Fare</div>
-      <div>{{{currency}}} {{Base_Amt}}</div>
+    <div class="container">
+      <h4>Cruise Base Fare</h4>
+      <h4>{{{currency}}} {{Base_Amt}}</h4>
     </div>
 
     {{#if NCF_Amt}}
-    <div class="container row">
-      <div>N C F</div>
-      <div>{{{currency}}} {{NCF_Amt}}</div>
+    <div class="container">
+      <h4>N C F</h4>
+      <h4>{{{currency}}} {{NCF_Amt}}</h4>
     </div>
     {{/if}} {{#if TAX_Amt}}
-    <div class="container row">
-      <div>TAX</div>
-      <div>{{{currency}}} {{TAX_Amt}}</div>
+    <div class="container">
+      <h4>TAX</h4>
+      <h4>{{{currency}}} {{TAX_Amt}}</h4>
     </div>
     {{/if}} {{#if HS_Amt}}
-    <div class="container row">
-      <div>Holiday Surcharge</div>
-      <div>{{{currency}}} {{HS_Amt}}</div>
+    <div class="container">
+      <h4>Holiday Surcharge</h4>
+      <h4>{{{currency}}} {{HS_Amt}}</h4>
     </div>
     {{/if}} {{#if Grat_Amt}}
-    <div class="container row">
-      <div>Gratuity</div>
-      <div>{{{currency}}} {{Grat_Amt}}</div>
+    <div class="container">
+      <h4>Gratuity</h4>
+      <h4>{{{currency}}} {{Grat_Amt}}</h4>
     </div>
     {{/if}} {{#if Misc}}
-    <div class="container row">
-      <div>Extra Charges</div>
-      <div>{{{currency}}} {{Misc}}</div>
+    <div class="container">
+      <h4>Extra Charges</h4>
+      <h4>{{{currency}}} {{Misc}}</h4>
     </div>
     {{/if}} {{#if Comm_Amt}}
-    <div class="container row">
-      <div>Less Commission</div>
-      <div>{{{currency}}} {{Comm_Amt}}</div>
+    <div class="container">
+      <h4>Less Commission</h4>
+      <h4>{{{currency}}} {{Comm_Amt}}</h4>
     </div>
     {{/if}} {{#if TDS_Amt}}
-    <div class="container row">
-      <div>TDS Applicable</div>
-      <div>{{{currency}}} {{TDS_Amt}}</div>
+    <div class="container">
+      <h4>TDS Applicable</h4>
+      <h4>{{{currency}}} {{TDS_Amt}}</h4>
     </div>
     {{/if}}
 
     <hr />
-    <div class="container row">
-      <div>Sub Total</div>
-      <div>{{{currency}}} {{SubTotal}}</div>
+    <div class="container">
+      <h4>Sub Total</h4>
+      <h4>{{{currency}}} {{SubTotal}}</h4>
     </div>
 
     {{#if GSTRate}}
-    <div class="container row">
-      <div>GST @ {{GSTRate}} %</div>
-      <div>{{{currency}}} {{GST_Amt}}</div>
+    <div class="container">
+      <h4>GST @ {{GSTRate}} %</h4>
+      <h4>{{{currency}}} {{GST_Amt}}</h4>
     </div>
     {{/if}} {{#if CGST}}
-    <div class="container row">
+    <div class="container">
       <div></div>
-      <div>CGST @ {{CGST}} %</div>
-      <div>{{CGSTAmt}}</div>
+      <h5>CGST @ {{CGST}} %</h5>
+      <h5>{{CGSTAmt}}</h5>
       <div></div>
     </div>
     {{/if}} {{#if SGST}}
-    <div class="container row">
+    <div class="container">
       <div></div>
-      <div>SGST @ {{SGST}} %</div>
-      <div>{{SGSTAmt}}</div>
+      <h5>SGST @ {{SGST}} %</h5>
+      <h5>{{SGSTAmt}}</h5>
       <div></div>
     </div>
     {{/if}} {{#if Token_Amt}} {{#ifEqual Invoice_Type "Token Invoice"}}
-    <div class="container row">
-      <div>Token Amount</div>
-      <div>{{{currency}}} {{Token_Amt}}</div>
+    <div class="container">
+      <h4>Token Amount</h4>
+      <h4>{{{currency}}} {{Token_Amt}}</h4>
     </div>
     {{else}}
-    <div class="container row">
-      <div>Less Token Amount</div>
-      <div>{{{currency}}} {{Token_Amt}}</div>
+    <div class="container">
+      <h4>Less Token Amount</h4>
+      <h4>{{{currency}}} {{Token_Amt}}</h4>
     </div>
     {{/ifEqual}} {{/if}}
-
-    <div
-      class="container row"
-      style="
-        border-radius: 10px;
-        background: #bada55;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        margin-top: 10px;
-      "
-    >
-      <div>TOTAL AMOUNT</div>
-      <div>{{{currency}}} {{Total}}</div>
+    <hr />
+    <div class="container">
+      <h4>Total Amount</h4>
+      <h4>{{{currency}}} {{Total}}</h4>
     </div>
 
     {{#ifEqual checkCurr 4}}
     <div></div>
     {{else}}
-    <div class="container row" style="padding-top: 8px; padding-bottom: 8px">
+    <div class="container">
       {{#ifEqual Invoice_Type "Token Invoice"}}
-      <div>Amount Payable in INR</div>
-      <div>
-        ( Applicable Rate of Exchange
-        <span style="font-weight: 500">{{ROE}}</span> )
-      </div>
-      <div>&#x20B9; {{Token_Amt_INR}}</div>
+      <h4>Amount Payable in INR</h4>
+      <h4>( Applicable Rate of Exchange {{ROE}} )</h4>
+      <h4>&#x20B9; {{Token_Amt_INR}}</h4>
       {{else}}
-      <div>Amount Payable in INR</div>
-      <div>
-        ( Applicable Rate of Exchange
-        <span style="font-weight: 500">{{ROE}}</span> )
-      </div>
-      <div>&#x20B9; {{TotalINR}}</div>
+      <h4>Amount Payable in INR</h4>
+      <h4>( Applicable Rate of Exchange {{ROE}} )</h4>
+      <h4>&#x20B9; {{TotalINR}}</h4>
       {{/ifEqual}}
     </div>
     {{/ifEqual}}
 
-    <div class="footer" style="padding-top: 60px">
-      Terms and conditions apply *
-    </div>
     <div class="footer">
-      Payment in Indian Rupees at the prevalent rate of exchange via
-      <span style="font-weight: 500">Cheque/Demand Draft/RTGS </span>, should be
-      payable to Carrot Cruise Shipping Pvt Ltd.
-    </div>
-    <div class="footer" style="padding-top: 10px; font-size: 16px">
-      <span style="font-weight: 500">
-        HDFC BANK (Carrot Cruise Shipping Pvt. Ltd ) A/C No. 50200024394736<br />
-        IFSC/RTGS/NEFT Code : HDFC0001441</span
-      >
-    </div>
-    <!-- <div
-      class="footer"
-      style="padding-top: 10px; padding-bottom: 10px; font-size: 16px"
-    >
-      <span style="font-weight: 500">
-        YES BANK (Carrot Cruise Shipping Pvt. Ltd) A/C No. 059861900002113
-        <br />
-        IFSC/RTGS/NEFT Code : YESB0000598</span
-      >
-    </div> -->
-    <div class="footer">
-      *This is computer generated copy, hence does not require any signature.
+      <h6>Terms and conditions apply *</h6>
+      <h4>
+        Payment in Indian Rupees at the prevalent rate of exchange via
+        Cheque/Demand Draft/RTGS , should be payable to Carrot Cruise Shipping
+        Pvt Ltd.
+      </h4>
+      <h3>
+        HDFC BANK (Carrot Cruise Shipping Pvt. Ltd ) A/C No. 50200024394736
+        IFSC/RTGS/NEFT Code : HDFC0001441
+      </h3>
+      <h6>
+        *This is computer generated copy, hence does not require any signature.
+      </h6>
     </div>
   </body>
 </html>

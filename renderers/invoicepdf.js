@@ -1,5 +1,5 @@
-const printInvoiceAPICall = (id) => {
-  return axios
+const printInvoiceAPICall = async (id) => {
+  return await axios
     .get(`http://localhost:3000/api/generatepdf/${id}`, {
       headers: {
         Accept: "application/json",
@@ -109,6 +109,17 @@ function printInvoicePdf(invoice_id) {
         pincode: invResults.pincode,
         currency: currencyCode,
         checkCurr: invResults.Currency,
+        name: invResults.name,
+        ccity: invResults.ccity,
+        cstate: invResults.cstate,
+        cpin: invResults.cpin,
+        gst: invResults.gst,
+        email: invResults.email,
+        website: invResults.website,
+        addressOne: invResults.address_one,
+        addressTwo: invResults.address_two,
+        cmobile: invResults.cmobile,
+        cphone: invResults.cphone,
       };
 
       let templateHtml = fs.readFileSync(

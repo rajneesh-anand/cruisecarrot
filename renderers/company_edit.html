@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css" />
+    <link rel="stylesheet" href="../assets/css/materialize.min.css" />
+    <style type="text/css">
+      .company-form .row {
+        margin-bottom: 0px !important;
+      }
+      .company-form .input-field {
+        margin-bottom: 6px !important;
+        margin-top: 6px !important;
+      }
+    </style>
+  </head>
+
+  <body onkeydown="return (event.keyCode!=13)" onunload="">
+    <div
+      class="row"
+      style="display: flex; padding-left: 1rem; padding-right: 1rem"
+    >
+      <h6 class="flow-text teal-text text-darken-3">COMPANY INFO</h6>
+
+      <a
+        class="btn-flat"
+        id="btnClose"
+        style="margin-left: auto; padding-top: 1rem"
+      >
+        <i class="material-icons right">close</i></a
+      >
+    </div>
+    <div class="company-form">
+      <form method="post">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="name"
+              type="text"
+              class="validate"
+              name="name"
+              required
+            />
+            <label for="name">Company Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="address_one"
+              type="text"
+              name="address_one"
+              class="validate"
+              required
+            />
+            <label for="address_one">Address Line One</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="address_two"
+              type="text"
+              name="address_two"
+              class="validate"
+            />
+            <label for="address_two">Address Line Two</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s4">
+            <i class="material-icons prefix">add_location</i>
+            <input
+              placeholder=""
+              id="city"
+              type="text"
+              name="city"
+              class="validate"
+              required
+            />
+            <label for="city">City </label>
+          </div>
+          <div class="input-field col s4">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="pincode"
+              name="pincode"
+              type="text"
+              class="validate"
+              required
+              onkeypress="return ValidateNumbers(event)"
+            />
+            <label for="pincode">Pin Code</label>
+          </div>
+          <div class="col s4">
+            <label>STATE</label>
+            <select name="state" id="state" class="browser-default stateName">
+              <option value="" disabled selected>Select State</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s3">
+            <i class="material-icons prefix">phone</i>
+            <input
+              placeholder=""
+              id="phone"
+              name="phone"
+              type="tel"
+              class="validate"
+            />
+            <label for="phone">Phone</label>
+          </div>
+          <div class="input-field col s3">
+            <i class="material-icons prefix">phone</i>
+            <input
+              placeholder=""
+              id="mobile"
+              name="mobile"
+              type="tel"
+              class="validate"
+              required
+            />
+            <label for="mobile">Mobile</label>
+          </div>
+          <div class="input-field col s3">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="gst"
+              name="gst"
+              type="text"
+              class="validate"
+              required
+            />
+            <label for="gst">GSTIN</label>
+          </div>
+          <div class="input-field col s3">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="pan"
+              name="pan"
+              type="text"
+              class="validate"
+            />
+            <label for="pan">PAN</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="material-icons prefix">email</i>
+            <input
+              placeholder=""
+              id="email"
+              type="email"
+              name="email"
+              class="validate"
+              required
+            />
+            <label for="email">Email</label>
+          </div>
+
+          <div class="input-field col s6">
+            <i class="material-icons prefix">edit</i>
+            <input
+              placeholder=""
+              id="website"
+              type="text"
+              name="website"
+              class="validate"
+            />
+            <label for="website">Website</label>
+          </div>
+          <input type="text" id="id" name="id" hidden />
+        </div>
+
+        <div class="right-align" style="margin-right: 16px">
+          <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            id="btnSave"
+            name="action"
+          >
+            UPDATE
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      if (typeof module === "object") {
+        window.module = module;
+        module = undefined;
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="../assets/js/jquery-3.4.1.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../assets/js/materialize.min.js"
+    ></script>
+
+    <script src="./company_edit.js"></script>
+    <script>
+      if (window.module) module = window.module;
+    </script>
+  </body>
+</html>

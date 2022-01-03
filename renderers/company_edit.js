@@ -1,6 +1,5 @@
 const electron = require("electron");
-const remote = electron.remote;
-const { ipcRenderer } = electron;
+const { ipcRenderer, remote } = electron;
 const axios = require("axios");
 
 function ValidateNumbers(e) {
@@ -15,7 +14,7 @@ function ValidateNumbers(e) {
 }
 
 function isNumberKey(evt, obj) {
-  var charCode = evt.which ? evt.which : event.keyCode;
+  var charCode = evt.which ? evt.which : evt.keyCode;
   var value = obj.value;
   var dotcontains = value.indexOf(".") != -1;
   if (dotcontains) if (charCode == 46) return false;
@@ -23,7 +22,6 @@ function isNumberKey(evt, obj) {
   if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
   return true;
 }
-
 $(function () {
   const btnClose = document.getElementById("btnClose");
   btnClose.addEventListener("click", (event) => {
@@ -49,46 +47,44 @@ document.addEventListener("keydown", (event) => {
 });
 
 const isvalid = () => {
-  let firstName = document.getElementById("fname").value;
-  // let lastName = document.getElementById("last_name").value;
-  let gstin = document.getElementById("gstin").value;
+  let name = document.getElementById("name").value;
+  let address = document.getElementById("address_one").value;
+  let gst = document.getElementById("gst").value;
   let city = document.getElementById("city").value;
-  // let pincode = document.getElementById("pincode").value;
 
-  if (firstName === "" || gstin === "" || city === "") {
+  if (name === "" || address === "" || gst === "" || city === "") {
     return false;
   } else {
     return true;
   }
 };
 
-// const btnSave = document.getElementById("btnSave");
 let form = document.querySelector("form");
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", function (event) {
   event.preventDefault();
-
   if (isvalid()) {
-    let data = new FormData(form);
-    let supplierData = {
-      first_name: data.get("fname").toUpperCase(),
-      last_name: data.get("lname").toUpperCase(),
-      address_line_one: data.get("address1").toUpperCase(),
-      address_line_two: data.get("address2").toUpperCase(),
+    var data = new FormData(form);
+    let companyData = {
+      id: data.get("id"),
+      name: data.get("name").toUpperCase(),
+      address_one: data.get("address_one"),
+      address_two: data.get("address_two"),
       city: data.get("city").toUpperCase(),
-      pincode: data.get("pincode"),
+      pin: data.get("pincode"),
       state: data.get("state"),
       phone: data.get("phone"),
       mobile: data.get("mobile"),
-      gstin: data.get("gstin").toUpperCase(),
+      gst: data.get("gst").toUpperCase(),
       email: data.get("email"),
       pan: data.get("pan"),
+      website: data.get("website"),
     };
-
+    // console.log(companyData);
     axios
-      .post(
-        `http://localhost:3000/api/supplier`,
-        supplierData,
+      .put(
+        `http://localhost:3000/api/company`,
+        companyData,
 
         {
           headers: {
@@ -99,7 +95,7 @@ form.addEventListener("submit", (event) => {
       )
       .then((response) => {
         alert(response.data.message);
-        $("input").val("");
+        $(":input").prop("disabled", true);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -111,9 +107,26 @@ ipcRenderer.on("fetchStates", (event, data) => {
   var Options = "";
   data.map(function (element, i) {
     Options =
-      Options + `<option value='${element.id}'>${element.State_Name}</option>`;
+      Options +
+      `<option value='${element.State_Name}'>${element.State_Name}</option>`;
   });
 
   $(".stateName").append(Options);
   $(".stateName").formSelect();
+});
+
+ipcRenderer.on("sendCompanyDataForEdit", (event, data) => {
+  document.getElementById("id").value = data.id;
+  document.getElementById("name").value = data.name;
+  document.getElementById("address_one").value = data.address_one;
+  document.getElementById("address_two").value = data.address_two;
+  document.getElementById("city").value = data.city;
+  document.getElementById("pincode").value = data.pin;
+  document.getElementById("mobile").value = data.mobile;
+  document.getElementById("phone").value = data.phone;
+  document.getElementById("email").value = data.email;
+  document.getElementById("gst").value = data.gst;
+  document.getElementById("state").value = data.state;
+  document.getElementById("pan").value = data.pan;
+  document.getElementById("website").value = data.website;
 });

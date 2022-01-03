@@ -378,7 +378,7 @@ ipcMain.on("customer:edit", function (event, args) {
       cuseditWindow.webContents.send("fetchStates", data);
     });
 
-    fetchCustomerDataByID(args.cusID.substring(3)).then((cusData) => {
+    fetchCustomerDataByID(args.cusID).then((cusData) => {
       cuseditWindow.webContents.send("sendCustomerDataForEdit", cusData);
     });
   });
@@ -431,7 +431,7 @@ ipcMain.on("supplier:edit", function (event, args) {
       cuseditWindow.webContents.send("fetchStates", data);
     });
 
-    fetchSupplierDataByID(args.supID.substring(3)).then((cusData) => {
+    fetchSupplierDataByID(args.supID).then((cusData) => {
       cuseditWindow.webContents.send("sendSupplierDataForEdit", cusData);
     });
   });
@@ -450,6 +450,96 @@ ipcMain.on("supplier:edit", function (event, args) {
 // 		customerWindow = null;
 // 	});
 // });
+
+// Company Window
+
+ipcMain.on("create:companywindow", (event, fileName) => {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+  const modalPath = path.join(
+    `file://${__dirname}/renderers/` + fileName + `.html`
+  );
+
+  let win = new BrowserWindow({
+    resizable: false,
+    height: 630,
+    width: width - 350,
+    frame: false,
+    title: "Add Company",
+    parent: mainWindow,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+  });
+
+  // win.webContents.openDevTools();
+
+  win.loadURL(modalPath);
+
+  win.webContents.on("did-finish-load", (event) => {
+    statesData().then((data) => {
+      win.webContents.send("fetchStates", data);
+    });
+  });
+
+  win.on("closed", () => {
+    win = null;
+  });
+});
+
+// Company Edit
+
+const fetchCompanyDataByID = async (id) => {
+  return await axios
+    .get(`http://localhost:3000/api/company/${id}`)
+    .then((response) => {
+      return response.data.data;
+    })
+    .catch((error) => {
+      if (error) throw new Error(error);
+    });
+};
+
+ipcMain.on("company:edit", function (event, args) {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const modalPath = path.join(
+    `file://${__dirname}/renderers/company_edit.html`
+  );
+
+  let win = new BrowserWindow({
+    resizable: false,
+    height: 630,
+    width: width - 350,
+    frame: false,
+    title: "Edit Company",
+    parent: mainWindow,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
+  });
+
+  // win.webContents.openDevTools();
+
+  win.loadURL(modalPath);
+
+  win.webContents.on("did-finish-load", (event) => {
+    statesData().then((data) => {
+      win.webContents.send("fetchStates", data);
+    });
+
+    fetchCompanyDataByID(args.companyId).then((res) => {
+      win.webContents.send("sendCompanyDataForEdit", res[0]);
+    });
+  });
+
+  win.on("closed", () => {
+    win = null;
+  });
+});
 
 // Customer Window
 

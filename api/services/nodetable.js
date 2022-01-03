@@ -49,6 +49,7 @@ class NodeTable {
         order += " ORDER BY " + orderBy.join(", ");
       }
     }
+
     return order;
   }
 
@@ -158,9 +159,9 @@ class NodeTable {
               } else {
                 throw new Error("Provide a callable function!");
               }
-            },
+            }
           );
-        },
+        }
       );
     });
   }

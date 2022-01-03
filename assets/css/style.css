@@ -1,7 +1,10 @@
 .navbar-fixed {
   height: 48px !important;
 }
-nav, nav .nav-wrapper i, nav a.sidenav-trigger, nav a.sidenav-trigger i {
+nav,
+nav .nav-wrapper i,
+nav a.sidenav-trigger,
+nav a.sidenav-trigger i {
   height: 48px !important;
   line-height: 48px !important;
 }
@@ -118,7 +121,7 @@ footer {
 .sidenav.sidenav-fixed .collapsible-body {
   background-color: transparent;
 }
-.collapsible-body ul li{
+.collapsible-body ul li {
   text-align: center;
   font-size: 13px;
   font-weight: 500;
